@@ -1,4 +1,4 @@
-package org.haulmont.simpleClinicDemo.views;
+package org.haulmont.simpleClinicDemo.views.aboutView;
 
 import javax.annotation.PostConstruct;
 
@@ -8,13 +8,15 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-@SpringView(name = DefaultView.VIEW_NAME)
-public class DefaultView extends VerticalLayout implements View {
-    public static final String VIEW_NAME = "";
+@SpringView(name = "about")
+public class AboutView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        addComponent(new Label("This is the test-task application"));
+        VerticalLayout layout = new VerticalLayout();
+        layout.setHeight("100%");
+        layout.addComponent(new Label("This is the test-task application"));
+        addComponent(layout);
     }
 
     @Override

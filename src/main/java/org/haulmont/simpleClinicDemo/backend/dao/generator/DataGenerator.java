@@ -18,8 +18,6 @@ public class DataGenerator {
             doctor.setMiddleName("Ivanovich");
             doctor.setSpecialization("Therapist");
             doctorsRepository.save(doctor);
-            doctor.setFirstName("Alexey");
-            doctorsRepository.save(doctor);
         };
     }
 }

@@ -2,9 +2,10 @@ package org.haulmont.simpleClinicDemo.views.doctorsView;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.shared.Position;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import org.haulmont.simpleClinicDemo.backend.dao.entity.Doctor;
 import org.haulmont.simpleClinicDemo.backend.dao.repository.DoctorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,31 @@ import javax.annotation.PostConstruct;
 @SpringView(name = "doctors")
 public class DoctorsView extends VerticalLayout implements View {
 
-    private final Grid<Doctor> grid = new Grid<>(Doctor.class);
+    @Autowired
+    DoctorsRepository repository;
+
+    public static Grid<Doctor> grid = new Grid<>(Doctor.class);
     private final Button addButton = new Button("Add");
     private final Button editButton = new Button("Edit");
     private final Button deleteButton = new Button("Delete");
     private final Button infoButton = new Button("Prescriptions info");
+    public static DoctorForm doctorsForm;
 
-    @Autowired
-    DoctorsRepository repository;
+    @PostConstruct
+    void init() {
+        addComponents(headerLabel(), gridLayout(repository), buttonsLayout());
+        createEventHandlers();
+    }
+
+    private HorizontalLayout headerLabel() {
+        HorizontalLayout horizontalLayout = new HorizontalLayout();
+        horizontalLayout.setHeight("80px");
+        Label gridInfoLabel = new Label("Our doctors");
+        gridInfoLabel.setStyleName(ValoTheme.LABEL_H1);
+        gridInfoLabel.setHeight("50px");
+        horizontalLayout.addComponent(gridInfoLabel);
+        return horizontalLayout;
+    }
 
     private Grid<Doctor> gridLayout(DoctorsRepository repository) {
         grid.setColumns("firstName", "lastName", "middleName", "specialization");
@@ -32,11 +50,13 @@ public class DoctorsView extends VerticalLayout implements View {
 
     private HorizontalLayout buttonsLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
         buttonLayout.setSpacing(true);
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
+        deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
         infoButton.setEnabled(false);
-        buttonLayout.addComponents(addButton, editButton, deleteButton, infoButton);
+        buttonLayout.addComponents(addButton, editButton, infoButton, deleteButton);
         return buttonLayout;
     }
 
@@ -53,31 +73,31 @@ public class DoctorsView extends VerticalLayout implements View {
             }
         });
         addButton.addClickListener(e -> {
-            DoctorForm doctorsForm = new DoctorForm(new Doctor());
-            UI.getCurrent().addWindow(doctorsForm);
+            doctorsForm = new DoctorForm(new Doctor(), repository);
+            getUI().addWindow(doctorsForm);
         });
         editButton.addClickListener(e -> {
-            DoctorForm doctorsForm = new DoctorForm(grid.asSingleSelect().getValue());
-            UI.getCurrent().addWindow(doctorsForm);
+            doctorsForm = new DoctorForm(grid.asSingleSelect().getValue(), repository);
+            getUI().addWindow(doctorsForm);
         });
         deleteButton.addClickListener(e -> {
-            repository.delete(grid.asSingleSelect().getValue());
-            updateDoctorsGrid();
+            Doctor d = grid.asSingleSelect().getValue();
+            repository.delete(d);
+            updateDoctorsGrid(repository);
+            Notification notification = new Notification("Dr. " + d.getLastName() + " was successfully deleted",
+                    Notification.Type.WARNING_MESSAGE);
+            notification.setDelayMsec(1500);
+            notification.setPosition(Position.BOTTOM_LEFT);
+            notification.show(getUI().getPage());
         });
         infoButton.addClickListener(e -> {
-            DoctorForm doctorsForm = new DoctorForm(grid.asSingleSelect().getValue());
-            UI.getCurrent().addWindow(doctorsForm);
+            doctorsForm = new DoctorForm(grid.asSingleSelect().getValue(), repository);
+            getUI().addWindow(doctorsForm);
         });
     }
 
-    public void updateDoctorsGrid() {
+    public static void updateDoctorsGrid(DoctorsRepository repository) {
         grid.setItems(repository.findAll());
-    }
-
-    @PostConstruct
-    void init() {
-        addComponents(gridLayout(repository), buttonsLayout());
-        createEventHandlers();
     }
 
     @Override
