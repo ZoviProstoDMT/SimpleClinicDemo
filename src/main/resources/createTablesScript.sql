@@ -1,5 +1,5 @@
 -- creating the doctors table
-create table doctors
+create table DOCTORS
 (
     id BIGINT identity
         constraint DOCTORS_PK
