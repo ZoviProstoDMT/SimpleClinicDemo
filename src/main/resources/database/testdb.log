@@ -1,0 +1,9 @@
+/*C12*/SET SCHEMA PUBLIC
+drop table doctors if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table doctors (id bigint not null, firstname varchar(255) not null, lastname varchar(255) not null, middlename varchar(255), specialization varchar(255) not null, primary key (id))
+INSERT INTO DOCTORS VALUES(10,'1','1','1','1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO DOCTORS VALUES(11,'2','2','2','2')
+COMMIT

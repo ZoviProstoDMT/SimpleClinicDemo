@@ -55,4 +55,9 @@ public class Doctor extends AbstractEntity {
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+
+    @Override
+    public String toString() {
+        return "Dr." + lastName + " : " + specialization;
+    }
 }

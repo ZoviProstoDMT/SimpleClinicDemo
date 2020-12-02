@@ -8,6 +8,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.haulmont.simpleClinicDemo.backend.dao.entity.Doctor;
 import org.haulmont.simpleClinicDemo.backend.dao.repository.DoctorsRepository;
+import org.haulmont.simpleClinicDemo.backend.service.DoctorsService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,9 @@ public class DoctorsView extends VerticalLayout implements View {
     @Autowired
     DoctorsRepository repository;
 
+    @Autowired
+    DoctorsService doctorsService;
+
     public static Grid<Doctor> grid = new Grid<>(Doctor.class);
     private final Button addButton = new Button("Add");
     private final Button editButton = new Button("Edit");
@@ -28,6 +32,8 @@ public class DoctorsView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
+        System.out.println("Repository: " + repository + "\n" + repository.findAll());
+        System.out.println("Service: " + doctorsService + "\n" + doctorsService.getAllDoctors());
         addComponents(headerLabel(), gridLayout(repository), buttonsLayout());
         createEventHandlers();
     }
@@ -44,7 +50,7 @@ public class DoctorsView extends VerticalLayout implements View {
 
     private Grid<Doctor> gridLayout(DoctorsRepository repository) {
         grid.setColumns("firstName", "lastName", "middleName", "specialization");
-        grid.setItems(repository.findAll());
+        grid.setItems((Collection<Doctor>) repository.findAll());
         grid.setSizeFull();
         return grid;
     }
@@ -98,7 +104,7 @@ public class DoctorsView extends VerticalLayout implements View {
     }
 
     public static void updateDoctorsGrid(DoctorsRepository repository) {
-        grid.setItems(repository.findAll());
+        grid.setItems((Collection<Doctor>) repository.findAll());
     }
 
     @Override
