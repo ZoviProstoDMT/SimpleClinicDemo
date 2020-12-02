@@ -4,14 +4,11 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.themes.ValoTheme;
-import org.haulmont.simpleClinicDemo.views.templates.HeaderMenu;
+import org.haulmont.simpleClinicDemo.views.templates.CustomHeaderMenu;
 
 @Theme("valo")
 @SpringUI
@@ -24,9 +21,9 @@ public class MainView extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
         final VerticalLayout root = new VerticalLayout();
         root.setMargin(false);
-        HeaderMenu headerMenu = new HeaderMenu();
-        headerMenu.setWidth("100%");
-        root.addComponent(headerMenu);
+        CustomHeaderMenu customHeaderMenu = new CustomHeaderMenu();
+        customHeaderMenu.setWidth("100%");
+        root.addComponent(customHeaderMenu);
 
         panel = new VerticalLayout();
         panel.setMargin(false);

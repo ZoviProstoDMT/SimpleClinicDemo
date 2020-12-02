@@ -1,14 +1,13 @@
 package org.haulmont.simpleClinicDemo.views.templates;
 
 import com.vaadin.server.ExternalResource;
-import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class HeaderMenu extends HorizontalLayout {
+public class CustomHeaderMenu extends HorizontalLayout {
 
-    public HeaderMenu() {
+    public CustomHeaderMenu() {
         addComponent(navigationBar());
     }
 
@@ -24,7 +23,7 @@ public class HeaderMenu extends HorizontalLayout {
         navigationItems.addComponent(createNavigationButton("Doctors", "doctors"));
         navigationItems.addComponent(createNavigationButton("Patients", "patients"));
         navigationItems.addComponent(createNavigationButton("Prescriptions", "prescriptions"));
-        navigationItems.addComponent(createNavigationButton("About", "about"));
+        navigationItems.addComponent(createNavigationButton("About", ""));
 
         navigationBar.addComponent(navigationItems);
         return navigationBar;

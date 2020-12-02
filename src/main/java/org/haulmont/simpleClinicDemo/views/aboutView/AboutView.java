@@ -5,10 +5,13 @@ import javax.annotation.PostConstruct;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.spring.annotation.UIScope;
+import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-@SpringView(name = "about")
+@ViewScope
+@SpringView(name = "")
 public class AboutView extends VerticalLayout implements View {
 
     @PostConstruct

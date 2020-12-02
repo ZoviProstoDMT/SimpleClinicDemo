@@ -1,14 +1,9 @@
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
-@Setter
 public class Patient extends AbstractEntity {
 
     @NotNull
@@ -19,4 +14,36 @@ public class Patient extends AbstractEntity {
 
     private String middleName;
     private String phone;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
