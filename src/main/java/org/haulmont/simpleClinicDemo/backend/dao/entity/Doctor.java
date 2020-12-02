@@ -1,20 +1,27 @@
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "DOCTORS")
 public class Doctor extends AbstractEntity {
 
     @NotNull
+    @Column(name = "FIRSTNAME")
     private String firstName;
 
     @NotNull
+    @Column(name = "LASTNAME")
     private String lastName;
 
+    @Column(name = "MIDDLENAME")
     private String middleName;
 
     @NotNull
+    @Column(name = "SPECIALIZATION")
     private String specialization;
 
     public String getFirstName() {

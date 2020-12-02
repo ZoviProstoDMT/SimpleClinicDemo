@@ -1,3 +1,4 @@
+/*
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
 import javax.persistence.Entity;
@@ -47,3 +48,4 @@ public class Patient extends AbstractEntity {
         this.phone = phone;
     }
 }
+*/

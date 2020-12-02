@@ -11,6 +11,7 @@ import org.haulmont.simpleClinicDemo.backend.dao.repository.DoctorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.Collection;
 
 @SpringView(name = "doctors")
 public class DoctorsView extends VerticalLayout implements View {

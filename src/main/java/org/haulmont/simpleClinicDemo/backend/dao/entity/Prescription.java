@@ -1,3 +1,4 @@
+/*
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
 
@@ -78,3 +79,4 @@ public class Prescription extends AbstractEntity {
         this.priority = priority;
     }
 }
+*/

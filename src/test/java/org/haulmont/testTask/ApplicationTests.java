@@ -1,4 +1,4 @@
-package org.vaadin.spring.tutorial;
+package org.haulmont.testTask;
 
 import org.haulmont.simpleClinicDemo.Application;
 import org.junit.Test;
