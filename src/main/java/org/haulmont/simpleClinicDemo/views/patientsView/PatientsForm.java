@@ -1,58 +1,56 @@
-package org.haulmont.simpleClinicDemo.views.doctorsView;
+package org.haulmont.simpleClinicDemo.views.patientsView;
 
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.Position;
-import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.haulmont.simpleClinicDemo.backend.dao.entity.Doctor;
-import org.haulmont.simpleClinicDemo.backend.service.DoctorsService;
+import org.haulmont.simpleClinicDemo.backend.dao.entity.Patient;
+import org.haulmont.simpleClinicDemo.backend.service.PatientsService;
 
-public class DoctorForm extends Window implements View {
+public class PatientsForm extends Window implements View {
 
     private final TextField firstName = new TextField("First name");
     private final TextField lastName = new TextField("Last name");
     private final TextField middleName = new TextField("Middle name");
-    private final TextField specialization = new TextField("Specialization");
+    private final TextField phone = new TextField("Phone");
     private final Button save = new Button("Save");
     private final Button cancel = new Button("Cancel");
-    private Doctor doctor;
-    private DoctorsService doctorsService;
+    private Patient Patient;
+    private PatientsService PatientsService;
 
-    private final Binder<Doctor> binder = new Binder<>(Doctor.class);
+    private final Binder<Patient> binder = new Binder<>(Patient.class);
 
-    public DoctorForm() {
+    public PatientsForm() {
     }
 
-    public DoctorForm(Doctor doctor, DoctorsService doctorsService) {
-        this.doctorsService = doctorsService;
-        this.doctor = doctor;
-        setCaption("Input Doctor details");
+    public PatientsForm(Patient Patient, PatientsService PatientsService) {
+        this.PatientsService = PatientsService;
+        this.Patient = Patient;
+        setCaption("Input Patient details");
         setModal(true);
         center();
-        setContent(doctorsForm());
+        setContent(patientsForm());
     }
 
-    public Component doctorsForm() {
+    public Component patientsForm() {
         VerticalLayout form = new VerticalLayout();
         HorizontalLayout formButtons = new HorizontalLayout(save, cancel);
         HorizontalLayout formInputs1 = new HorizontalLayout(firstName, lastName);
-        HorizontalLayout formInputs2 = new HorizontalLayout(middleName, specialization);
+        HorizontalLayout formInputs2 = new HorizontalLayout(middleName, phone);
         form.addComponents(formInputs1, formInputs2, formButtons);
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
         save.setClickShortcut(KeyCode.ENTER);
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
-        specialization.setRequiredIndicatorVisible(true);
 
-        binder.setBean(doctor);
+        binder.setBean(Patient);
         binder.bindInstanceFields(this);
 
         save.addClickListener(event -> this.save());
-        cancel.addClickListener(event -> getUI().removeWindow(DoctorsView.doctorsForm));
+        cancel.addClickListener(event -> getUI().removeWindow(PatientsView.patientsForm));
         return form;
     }
 
@@ -60,15 +58,19 @@ public class DoctorForm extends Window implements View {
         Notification notification = new Notification("All these fields are required", Notification.Type.ERROR_MESSAGE);
         notification.setPosition(Position.TOP_CENTER);
         notification.setDelayMsec(1500);
-        if (firstName.getValue().trim().isEmpty()|| lastName.getValue().trim().isEmpty()
-                || specialization.getValue().trim().isEmpty())
+        if (firstName.getValue().trim().isEmpty()|| lastName.getValue().trim().isEmpty())
             notification.show(getUI().getPage());
+        else if (phone.getValue().trim().length() < 6) {
+            notification.setCaption("Invalid phone number");
+            notification.show(getUI().getPage());
+        }
         else {
             try {
-                doctorsService.save(doctor);
-                getUI().removeWindow(DoctorsView.doctorsForm);
-                DoctorsView.updateDoctorsGrid(doctorsService);
+                PatientsService.save(Patient);
+                getUI().removeWindow(PatientsView.patientsForm);
+                PatientsView.updatePatientsGrid(PatientsService);
             } catch (Exception e) {
+                notification.setCaption("Saving error");
                 notification.show(getUI().getPage());
             }
         }

@@ -1,10 +1,11 @@
-/*
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "PATIENTS")
 public class Patient extends AbstractEntity {
 
     @NotNull
@@ -14,6 +15,7 @@ public class Patient extends AbstractEntity {
     private String lastName;
 
     private String middleName;
+
     private String phone;
 
     public String getFirstName() {
@@ -48,4 +50,3 @@ public class Patient extends AbstractEntity {
         this.phone = phone;
     }
 }
-*/

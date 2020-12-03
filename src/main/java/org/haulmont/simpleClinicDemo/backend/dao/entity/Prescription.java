@@ -1,14 +1,15 @@
-/*
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "PRESCRIPTIONS")
 public class Prescription extends AbstractEntity {
 
     @NotNull
@@ -16,11 +17,11 @@ public class Prescription extends AbstractEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Doctor doctor;
+    private Doctor doctorID;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Patient patient;
+    private Patient patientID;
 
     @NotNull
     private LocalDateTime startDate;
@@ -40,19 +41,19 @@ public class Prescription extends AbstractEntity {
     }
 
     public Doctor getDoctor() {
-        return doctor;
+        return doctorID;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctor(Doctor doctorID) {
+        this.doctorID = doctorID;
     }
 
     public Patient getPatient() {
-        return patient;
+        return patientID;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatient(Patient patientID) {
+        this.patientID = patientID;
     }
 
     public LocalDateTime getStartDate() {
@@ -78,5 +79,9 @@ public class Prescription extends AbstractEntity {
     public void setPriority(String priority) {
         this.priority = priority;
     }
+
+    @Override
+    public String toString() {
+        return "Prescription from" + doctorID + " to " + patientID + " (" + priority + ")";
+    }
 }
-*/
