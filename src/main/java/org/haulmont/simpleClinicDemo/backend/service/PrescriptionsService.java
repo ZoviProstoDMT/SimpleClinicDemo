@@ -33,6 +33,14 @@ public class PrescriptionsService {
         return patientsService.findById(id);
     }
 
+    public List<Doctor> getAllDoctors() {
+        return doctorsService.getAllDoctors();
+    }
+
+    public List<Patient> getAllPatients() {
+        return patientsService.getAllPatients();
+    }
+
     public void delete(Prescription prescription) {
         prescriptionsRepository.delete(prescription);
     }

@@ -18,17 +18,17 @@ public class PatientsForm extends Window implements View {
     private final TextField phone = new TextField("Phone");
     private final Button save = new Button("Save");
     private final Button cancel = new Button("Cancel");
-    private Patient Patient;
-    private PatientsService PatientsService;
+    private Patient patient;
+    private PatientsService patientsService;
 
     private final Binder<Patient> binder = new Binder<>(Patient.class);
 
     public PatientsForm() {
     }
 
-    public PatientsForm(Patient Patient, PatientsService PatientsService) {
-        this.PatientsService = PatientsService;
-        this.Patient = Patient;
+    public PatientsForm(Patient patient, PatientsService patientsService) {
+        this.patientsService = patientsService;
+        this.patient = patient;
         setCaption("Input Patient details");
         setModal(true);
         center();
@@ -46,7 +46,7 @@ public class PatientsForm extends Window implements View {
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
 
-        binder.setBean(Patient);
+        binder.setBean(patient);
         binder.bindInstanceFields(this);
 
         save.addClickListener(event -> this.save());
@@ -66,9 +66,9 @@ public class PatientsForm extends Window implements View {
         }
         else {
             try {
-                PatientsService.save(Patient);
+                patientsService.save(patient);
                 getUI().removeWindow(PatientsView.patientsForm);
-                PatientsView.updatePatientsGrid(PatientsService);
+                PatientsView.updatePatientsGrid(patientsService);
             } catch (Exception e) {
                 notification.setCaption("Saving error");
                 notification.show(getUI().getPage());

@@ -1,5 +1,6 @@
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -9,13 +10,17 @@ import javax.validation.constraints.NotNull;
 public class Patient extends AbstractEntity {
 
     @NotNull
+    @Column(name = "FIRSTNAME")
     private String firstName;
 
     @NotNull
+    @Column(name = "LASTNAME")
     private String lastName;
 
+    @Column(name = "MIDDLENAME")
     private String middleName;
 
+    @Column(name = "PHONE")
     private String phone;
 
     public String getFirstName() {
@@ -48,5 +53,10 @@ public class Patient extends AbstractEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return lastName + " " + firstName;
     }
 }

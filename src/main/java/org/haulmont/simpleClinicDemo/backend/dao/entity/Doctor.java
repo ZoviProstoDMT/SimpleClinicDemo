@@ -58,6 +58,6 @@ public class Doctor extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "Dr." + lastName + " : " + specialization;
+        return lastName + " " + firstName + " (" + specialization + ")";
     }
 }

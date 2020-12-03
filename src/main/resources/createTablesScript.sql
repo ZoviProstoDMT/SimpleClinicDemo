@@ -1,27 +1,27 @@
-/*CREATE TABLE doctors (
-                         id BIGINT IDENTITY PRIMARY KEY,
-                         firstname VARCHAR(255) NOT NULL,
-                         lastname VARCHAR(255) NOT NULL,
-                         middlename VARCHAR(255) NOT NULL,
-                         specialization VARCHAR(255)
-);*/
+CREATE TABLE DOCTORS (
+    ID BIGINT IDENTITY PRIMARY KEY,
+    FIRSTNAME VARCHAR(255) NOT NULL,
+    LASTNAME VARCHAR(255) NOT NULL,
+    MIDDLENAME VARCHAR(255) NOT NULL,
+    SPECIALIZATION VARCHAR(255)
+);
 
-CREATE TABLE patients (
-                          id BIGINT IDENTITY PRIMARY KEY,
-                          firstname VARCHAR(255) NOT NULL,
-                          lastname VARCHAR(255) NOT NULL,
-                          middlename VARCHAR(255) NOT NULL,
-                          phone VARCHAR(255)
+CREATE TABLE PATIENTS (
+    ID BIGINT IDENTITY PRIMARY KEY,
+    FIRSTNAME VARCHAR(255) NOT NULL,
+    LASTNAME VARCHAR(255) NOT NULL,
+    MIDDLENAME VARCHAR(255) NOT NULL,
+    PHONE VARCHAR(255)
 );
 
 CREATE TABLE prescriptions (
-                          id BIGINT IDENTITY PRIMARY KEY,
-                          description VARCHAR(512),
-                          doctorID BIGINT NOT NULL,
-                          patientID BIGINT NOT NULL,
-                          startDate DATE NOT NULL,
-                          duration INTEGER NOT NULL,
-                          priority INTEGER,
-                          FOREIGN KEY (doctorID) REFERENCES doctors(id),
-                          FOREIGN KEY (patientID) REFERENCES patients(id)
+    ID BIGINT IDENTITY PRIMARY KEY,
+    DESCRIPTION VARCHAR(512),
+    DOCTORID BIGINT NOT NULL,
+    PATIENTID BIGINT NOT NULL,
+    START_DATE DATE NOT NULL,
+    DURATION INTEGER NOT NULL,
+    PRIORITY INTEGER,
+    FOREIGN KEY (DOCTORID) REFERENCES DOCTORS(id),
+    FOREIGN KEY (PATIENTID) REFERENCES PATIENTS(id)
 );
