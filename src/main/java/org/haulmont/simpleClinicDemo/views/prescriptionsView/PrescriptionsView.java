@@ -1,5 +1,7 @@
 package org.haulmont.simpleClinicDemo.views.prescriptionsView;
 
+import com.vaadin.data.HasValue;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -27,13 +29,13 @@ public class PrescriptionsView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        addComponents(headerLabel(), gridLayout(prescriptionsService), buttonsLayout());
+        addComponents(headerLabel(), filtersLayout(), gridLayout(prescriptionsService), buttonsLayout());
         createEventHandlers();
     }
 
     private HorizontalLayout headerLabel() {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.setHeight("80px");
+        horizontalLayout.setHeight("75px");
         Label gridInfoLabel = new Label("Medical prescriptions");
         gridInfoLabel.setStyleName(ValoTheme.LABEL_H1);
         gridInfoLabel.setHeight("50px");
@@ -46,6 +48,26 @@ public class PrescriptionsView extends VerticalLayout implements View {
         grid.setItems(prescriptionsService.getAllPrescriptions());
         grid.setSizeFull();
         return grid;
+    }
+
+    private HorizontalLayout filtersLayout() {
+        Label label = new Label("Filters: ");
+        label.setSizeFull();
+        HorizontalLayout labelLayout = new HorizontalLayout();
+        labelLayout.setWidth("100%");
+        labelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        labelLayout.addComponents(label);
+        TextField descriptionFilter = new TextField();
+        descriptionFilter.setPlaceholder("Description...");
+        TextField priorityFilter = new TextField();
+        priorityFilter.setPlaceholder("Priority...");
+        TextField patientFilter = new TextField();
+        patientFilter.setPlaceholder("Patients name...");
+        HorizontalLayout filters = new HorizontalLayout(labelLayout, descriptionFilter, priorityFilter, patientFilter);
+        descriptionFilter.addValueChangeListener(this::addDescriptionFilter);
+        priorityFilter.addValueChangeListener(this::addPriorityFilter);
+        patientFilter.addValueChangeListener(this::addPatientFilter);
+        return filters;
     }
 
     private HorizontalLayout buttonsLayout() {
@@ -82,6 +104,7 @@ public class PrescriptionsView extends VerticalLayout implements View {
         });
         deleteButton.addClickListener(e -> {
             Prescription p = grid.asSingleSelect().getValue();
+
             prescriptionsService.delete(p);
             updatePrescriptionsGrid(prescriptionsService);
             Notification notification = new Notification("Prescription from " + p.getDoctor()
@@ -91,6 +114,26 @@ public class PrescriptionsView extends VerticalLayout implements View {
             notification.setPosition(Position.BOTTOM_LEFT);
             notification.show(getUI().getPage());
         });
+    }
+
+    private void addDescriptionFilter(HasValue.ValueChangeEvent<String> event) {
+        ListDataProvider<Prescription> dataProvider = (ListDataProvider<Prescription>) grid.getDataProvider();
+        dataProvider.setFilter(Prescription::getDescription, description -> isContains(description, event.getValue()));
+    }
+
+    private void addPriorityFilter(HasValue.ValueChangeEvent<String> event) {
+        ListDataProvider<Prescription> dataProvider = (ListDataProvider<Prescription>) grid.getDataProvider();
+        dataProvider.setFilter(Prescription::getPriority, priority -> isContains(priority, event.getValue()));
+    }
+
+    private void addPatientFilter(HasValue.ValueChangeEvent<String> event) {
+        ListDataProvider<Prescription> dataProvider = (ListDataProvider<Prescription>) grid.getDataProvider();
+        dataProvider.setFilter(Prescription::getPatient, patient -> isContains(patient.toString(), event.getValue()));
+    }
+
+
+    private Boolean isContains(String where, String what) {
+        return where.toLowerCase().contains(what.toLowerCase());
     }
 
     public static void updatePrescriptionsGrid(PrescriptionsService prescriptionsService) {

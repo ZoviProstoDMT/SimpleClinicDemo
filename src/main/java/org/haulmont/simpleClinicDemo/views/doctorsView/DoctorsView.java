@@ -90,13 +90,19 @@ public class DoctorsView extends VerticalLayout implements View {
         });
         deleteButton.addClickListener(e -> {
             Doctor d = grid.asSingleSelect().getValue();
-            doctorsService.delete(d);
-            updateDoctorsGrid(doctorsService);
-            Notification notification = new Notification("Dr. " + d.getLastName() + " was successfully deleted",
-                    Notification.Type.WARNING_MESSAGE);
-            notification.setDelayMsec(1500);
-            notification.setPosition(Position.BOTTOM_LEFT);
-            notification.show(getUI().getPage());
+            try {
+                doctorsService.delete(d);
+                updateDoctorsGrid(doctorsService);
+                Notification notification = new Notification("Dr. " + d.getLastName() + " was successfully deleted",
+                        Notification.Type.WARNING_MESSAGE);
+                notification.setDelayMsec(1500);
+                notification.setPosition(Position.BOTTOM_LEFT);
+                notification.show(getUI().getPage());
+            } catch (Exception deleteException) {
+                Notification deleteNotification = new Notification("Невозможно удалить врача, у которого есть рецепты",
+                        Notification.Type.WARNING_MESSAGE);
+                deleteNotification.show(getUI().getPage());
+            }
         });
         infoButton.addClickListener(e -> {
             prescriptionsForm = new PrescriptionsInfoForm(doctorsService);
