@@ -2,6 +2,7 @@ package org.haulmont.simpleClinicDemo.backend.service;
 
 import org.haulmont.simpleClinicDemo.backend.dao.entity.Doctor;
 import org.haulmont.simpleClinicDemo.backend.dao.repository.DoctorsRepository;
+import org.haulmont.simpleClinicDemo.backend.dao.repository.PrescriptionsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,26 +10,31 @@ import java.util.List;
 @Service
 public class DoctorsService {
 
-    final
-    DoctorsRepository repository;
+    final DoctorsRepository doctorsRepository;
+    final PrescriptionsRepository prescriptionsRepository;
 
-    public DoctorsService(DoctorsRepository repository) {
-        this.repository = repository;
+    public DoctorsService(DoctorsRepository doctorsRepository, PrescriptionsRepository prescriptionsRepository) {
+        this.doctorsRepository = doctorsRepository;
+        this.prescriptionsRepository = prescriptionsRepository;
     }
 
     public Doctor findById(long id) {
-       return repository.findOne(id);
+       return doctorsRepository.findOne(id);
     }
 
     public List<Doctor> getAllDoctors() {
-        return repository.findAll();
+        return doctorsRepository.findAll();
     }
 
     public void delete(Doctor doctor) {
-        repository.delete(doctor);
+        doctorsRepository.delete(doctor);
     }
 
     public void save(Doctor doctor) {
-        repository.save(doctor);
+        doctorsRepository.save(doctor);
+    }
+
+    public int getPrescriptionsCount(Doctor doctor) {
+        return prescriptionsRepository.findAllPrescriptionsByDoctorId(doctor.getId()).size();
     }
 }

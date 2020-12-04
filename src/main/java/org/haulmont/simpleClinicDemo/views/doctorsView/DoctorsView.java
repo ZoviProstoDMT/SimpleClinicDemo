@@ -25,6 +25,7 @@ public class DoctorsView extends VerticalLayout implements View {
     private final Button deleteButton = new Button("Delete");
     private final Button infoButton = new Button("Prescriptions info");
     public static DoctorForm doctorsForm;
+    public static PrescriptionsInfoForm prescriptionsForm;
 
     @PostConstruct
     void init() {
@@ -51,18 +52,21 @@ public class DoctorsView extends VerticalLayout implements View {
 
     private HorizontalLayout buttonsLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setWidth("100%");
+        HorizontalLayout infoLayout = new HorizontalLayout(infoButton);
+        HorizontalLayout activeButtons = new HorizontalLayout(addButton, editButton, deleteButton);
         buttonLayout.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
-        buttonLayout.setSpacing(true);
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
         deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
-        infoButton.setEnabled(false);
         editButton.setIcon(VaadinIcons.PENCIL);
         deleteButton.setIcon(VaadinIcons.MINUS);
         addButton.setIcon(VaadinIcons.PLUS);
         infoButton.setIcon(VaadinIcons.PILLS);
 
-        buttonLayout.addComponents(addButton, editButton, infoButton, deleteButton);
+        buttonLayout.addComponents(activeButtons, infoLayout);
+        buttonLayout.setComponentAlignment(infoLayout, Alignment.MIDDLE_RIGHT);
+        buttonLayout.setComponentAlignment(activeButtons, Alignment.MIDDLE_LEFT);
         return buttonLayout;
     }
 
@@ -71,11 +75,9 @@ public class DoctorsView extends VerticalLayout implements View {
             if (!grid.asSingleSelect().isEmpty()) {
                 editButton.setEnabled(true);
                 deleteButton.setEnabled(true);
-                infoButton.setEnabled(true);
             } else {
                 editButton.setEnabled(false);
                 deleteButton.setEnabled(false);
-                infoButton.setEnabled(false);
             }
         });
         addButton.addClickListener(e -> {
@@ -97,8 +99,8 @@ public class DoctorsView extends VerticalLayout implements View {
             notification.show(getUI().getPage());
         });
         infoButton.addClickListener(e -> {
-            doctorsForm = new DoctorForm(grid.asSingleSelect().getValue(), doctorsService);
-            getUI().addWindow(doctorsForm);
+            prescriptionsForm = new PrescriptionsInfoForm(doctorsService);
+            getUI().addWindow(prescriptionsForm);
         });
     }
 

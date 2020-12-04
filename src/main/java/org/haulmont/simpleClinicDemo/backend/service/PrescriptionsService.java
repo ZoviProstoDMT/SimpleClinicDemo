@@ -48,4 +48,8 @@ public class PrescriptionsService {
     public void save(Prescription prescription) {
         prescriptionsRepository.save(prescription);
     }
+
+    public List<Prescription> findAllPrescriptionsByDoctorId(long doctorID) {
+        return prescriptionsRepository.findAllPrescriptionsByDoctorId(doctorID);
+    }
 }
