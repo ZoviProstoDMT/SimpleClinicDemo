@@ -1,5 +1,6 @@
 package org.haulmont.simpleClinicDemo.views.prescriptionsView;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.Position;
@@ -41,7 +42,7 @@ public class PrescriptionsView extends VerticalLayout implements View {
     }
 
     private Grid<Prescription> gridLayout(PrescriptionsService prescriptionsService) {
-        grid.setColumns("priority", "patient", "doctor", "description", "startDate", "duration");
+        grid.setColumns("priority", "doctor", "patient", "description", "startDate", "duration");
         grid.setItems(prescriptionsService.getAllPrescriptions());
         grid.setSizeFull();
         return grid;
@@ -50,6 +51,9 @@ public class PrescriptionsView extends VerticalLayout implements View {
     private HorizontalLayout buttonsLayout() {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+        editButton.setIcon(VaadinIcons.PENCIL);
+        deleteButton.setIcon(VaadinIcons.MINUS);
+        addButton.setIcon(VaadinIcons.PLUS);
         buttonLayout.setSpacing(true);
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);

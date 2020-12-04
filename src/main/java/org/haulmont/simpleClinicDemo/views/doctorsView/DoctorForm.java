@@ -2,6 +2,7 @@ package org.haulmont.simpleClinicDemo.views.doctorsView;
 
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.Position;
@@ -17,7 +18,7 @@ public class DoctorForm extends Window implements View {
     private final TextField lastName = new TextField("Last name");
     private final TextField middleName = new TextField("Middle name");
     private final TextField specialization = new TextField("Specialization");
-    private final Button save = new Button("Save");
+    private final Button save = new Button("Save", VaadinIcons.CHECK);
     private final Button cancel = new Button("Cancel");
     private Doctor doctor;
     private DoctorsService doctorsService;
@@ -30,7 +31,8 @@ public class DoctorForm extends Window implements View {
     public DoctorForm(Doctor doctor, DoctorsService doctorsService) {
         this.doctorsService = doctorsService;
         this.doctor = doctor;
-        setCaption("Input Doctor details");
+        setCaption(" Input Doctor details");
+        setIcon(VaadinIcons.DOCTOR);
         setModal(true);
         center();
         setContent(doctorsForm());

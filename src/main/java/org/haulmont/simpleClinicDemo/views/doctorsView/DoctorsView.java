@@ -1,5 +1,6 @@
 package org.haulmont.simpleClinicDemo.views.doctorsView;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.Position;
@@ -56,6 +57,11 @@ public class DoctorsView extends VerticalLayout implements View {
         deleteButton.setEnabled(false);
         deleteButton.setStyleName(ValoTheme.BUTTON_DANGER);
         infoButton.setEnabled(false);
+        editButton.setIcon(VaadinIcons.PENCIL);
+        deleteButton.setIcon(VaadinIcons.MINUS);
+        addButton.setIcon(VaadinIcons.PLUS);
+        infoButton.setIcon(VaadinIcons.PILLS);
+
         buttonLayout.addComponents(addButton, editButton, infoButton, deleteButton);
         return buttonLayout;
     }

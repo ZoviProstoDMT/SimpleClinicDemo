@@ -1,6 +1,7 @@
 package org.haulmont.simpleClinicDemo.views.prescriptionsView;
 
 import com.vaadin.event.ShortcutAction.KeyCode;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.Position;
@@ -26,7 +27,7 @@ public class PrescriptionsForm extends Window implements View {
     private NativeSelect<String> priority;
     private final DateTimeField startDate = new DateTimeField("Start time");
     private NativeSelect<Integer> duration;
-    private final Button save = new Button("Save");
+    private final Button save = new Button("Save", VaadinIcons.CHECK);
     private final Button cancel = new Button("Cancel");
 
     public PrescriptionsForm() {
@@ -37,19 +38,22 @@ public class PrescriptionsForm extends Window implements View {
         this.prescription = prescription;
         allDoctors = prescriptionsService.getAllDoctors();
         allPatients = prescriptionsService.getAllPatients();
-        setCaption("Input prescription details");
+        setCaption(" Input prescription details");
+        setIcon(VaadinIcons.PILLS);
         setModal(true);
         center();
         setContent(prescriptionsForm());
     }
 
     private void fillNativeSelectComponents() {
-        doctor = new NativeSelect<>("Doctor", allDoctors);
+        doctor = new NativeSelect<>(" Doctor", allDoctors);
         doctor.setEmptySelectionAllowed(false);
         doctor.setSelectedItem(allDoctors.get(0));
-        patient = new NativeSelect<>("Patient", allPatients);
+        doctor.setIcon(VaadinIcons.DOCTOR);
+        patient = new NativeSelect<>(" Patient", allPatients);
         patient.setEmptySelectionAllowed(false);
         patient.setSelectedItem(allPatients.get(0));
+        patient.setIcon(VaadinIcons.USER);
         priority = new NativeSelect<>("Priority", Arrays.asList("Нормальный", "Срочный", "Немедленный"));
         priority.setEmptySelectionAllowed(false);
         priority.setSelectedItem("Нормальный");
@@ -67,6 +71,9 @@ public class PrescriptionsForm extends Window implements View {
         HorizontalLayout formInputs1 = new HorizontalLayout(doctor, patient);
         HorizontalLayout formInputs2 = new HorizontalLayout(priority, startDate, duration);
         HorizontalLayout formInputs3 = new HorizontalLayout(description);
+        formInputs3.setWidth("100%");
+        description.setWidth("100%");
+
         form.addComponents(formInputs1, formInputs2, formInputs3, formButtons);
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
         save.setClickShortcut(KeyCode.ENTER);
@@ -77,6 +84,8 @@ public class PrescriptionsForm extends Window implements View {
         priority.setRequiredIndicatorVisible(true);
         startDate.setRequiredIndicatorVisible(true);
         duration.setRequiredIndicatorVisible(true);
+
+        form.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         save.addClickListener(event -> this.save());
         cancel.addClickListener(event -> getUI().removeWindow(PrescriptionsView.prescriptionsForm));
