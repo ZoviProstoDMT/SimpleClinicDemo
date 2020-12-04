@@ -2,12 +2,10 @@ package org.haulmont.simpleClinicDemo.views.templates;
 
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-import javax.swing.*;
 import java.io.File;
 
 public class CustomHeaderMenu extends HorizontalLayout {

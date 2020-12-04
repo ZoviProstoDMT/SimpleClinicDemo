@@ -1,7 +1,6 @@
 package org.haulmont.simpleClinicDemo.views;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;

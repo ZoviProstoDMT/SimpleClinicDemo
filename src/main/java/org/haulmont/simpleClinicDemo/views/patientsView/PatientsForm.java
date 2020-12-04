@@ -10,6 +10,9 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.haulmont.simpleClinicDemo.backend.dao.entity.Patient;
 import org.haulmont.simpleClinicDemo.backend.service.PatientsService;
+import org.haulmont.simpleClinicDemo.views.doctorsView.DoctorsView;
+
+import java.util.regex.Pattern;
 
 public class PatientsForm extends Window implements View {
 
@@ -19,13 +22,10 @@ public class PatientsForm extends Window implements View {
     private final TextField phone = new TextField("Phone");
     private final Button save = new Button("Save", VaadinIcons.CHECK);
     private final Button cancel = new Button("Cancel");
-    private Patient patient;
-    private PatientsService patientsService;
+    private final Patient patient;
+    private final PatientsService patientsService;
 
     private final Binder<Patient> binder = new Binder<>(Patient.class);
-
-    public PatientsForm() {
-    }
 
     public PatientsForm(Patient patient, PatientsService patientsService) {
         this.patientsService = patientsService;
@@ -38,10 +38,10 @@ public class PatientsForm extends Window implements View {
     }
 
     public Component patientsForm() {
-        VerticalLayout form = new VerticalLayout();
         HorizontalLayout formButtons = new HorizontalLayout(save, cancel);
         HorizontalLayout formInputs1 = new HorizontalLayout(firstName, lastName);
         HorizontalLayout formInputs2 = new HorizontalLayout(middleName, phone);
+        VerticalLayout form = new VerticalLayout();
         form.addComponents(formInputs1, formInputs2, formButtons);
         save.setStyleName(ValoTheme.BUTTON_PRIMARY);
         save.setClickShortcut(KeyCode.ENTER);
@@ -56,24 +56,66 @@ public class PatientsForm extends Window implements View {
         return form;
     }
 
-    private void save() {
-        Notification notification = new Notification("All these fields are required", Notification.Type.ERROR_MESSAGE);
+    private boolean isInputDataValid() {
+        Pattern notOnlyDigits = Pattern.compile("[a-zA-Z,а-яА-Я]+");
+        Pattern validPhoneNumber = Pattern.compile("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$");
+        Notification notification = new Notification("Please fill all required fields", Notification.Type.ERROR_MESSAGE);
         notification.setPosition(Position.TOP_CENTER);
         notification.setDelayMsec(1500);
-        if (firstName.getValue().trim().isEmpty()|| lastName.getValue().trim().isEmpty())
+        if (firstName.getValue().trim().isEmpty() || lastName.getValue().trim().isEmpty()) {
             notification.show(getUI().getPage());
-        else if (phone.getValue().trim().length() < 6) {
-            notification.setCaption("Invalid phone number");
-            notification.show(getUI().getPage());
+            return false;
+        }
+        else if (!notOnlyDigits.matcher(firstName.getValue()).find()) {
+                notification.setCaption("Invalid firstname. Must contain characters");
+                notification.show(getUI().getPage());
+                return false;
+        }
+        else if (!notOnlyDigits.matcher(lastName.getValue()).find()) {
+                notification.setCaption("Invalid lastname. Must contain characters");
+                notification.show(getUI().getPage());
+                return false;
+        }
+        else if (middleName.getValue().equals("")) {
+            if (phone.getValue().equals("")) {
+                return true;
+            }
+            else {
+                if (!validPhoneNumber.matcher(phone.getValue()).find()) {
+                    notification.setCaption("Invalid phone number");
+                    notification.show(getUI().getPage());
+                    return false;
+                }
+            }
         }
         else {
+            if (!notOnlyDigits.matcher(middleName.getValue()).find()) {
+                notification.setCaption("Invalid middlename. Must contain characters");
+                notification.show(getUI().getPage());
+                return false;
+            }
+            else if (phone.getValue().equals("")) {
+                return true;
+            }
+            else {
+                if (!validPhoneNumber.matcher(phone.getValue()).find()) {
+                    notification.setCaption("Invalid phone number");
+                    notification.show(getUI().getPage());
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void save() {
+        if (isInputDataValid()) {
             try {
                 patientsService.save(patient);
                 getUI().removeWindow(PatientsView.patientsForm);
                 PatientsView.updatePatientsGrid(patientsService);
             } catch (Exception e) {
-                notification.setCaption("Saving error");
-                notification.show(getUI().getPage());
+                new Notification("Saving error", Notification.Type.ERROR_MESSAGE).show(getUI().getPage());
             }
         }
     }

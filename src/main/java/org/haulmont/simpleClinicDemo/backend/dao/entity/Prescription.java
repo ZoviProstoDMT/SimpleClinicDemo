@@ -1,6 +1,5 @@
 package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

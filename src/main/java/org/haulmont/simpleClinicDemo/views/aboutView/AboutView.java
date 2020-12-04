@@ -5,15 +5,12 @@ import javax.annotation.PostConstruct;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FileResource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.VerticalLayout;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 
@@ -35,6 +32,5 @@ public class AboutView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        // This view is constructed in the init() method()
     }
 }

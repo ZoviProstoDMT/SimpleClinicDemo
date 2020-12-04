@@ -13,10 +13,7 @@ import org.haulmont.simpleClinicDemo.backend.service.DoctorsService;
 public class PrescriptionsInfoForm extends Window implements View {
 
     private final Button okButton = new Button("OK");
-    private DoctorsService doctorsService;
-
-    public PrescriptionsInfoForm() {
-    }
+    private final DoctorsService doctorsService;
 
     public PrescriptionsInfoForm(DoctorsService doctorsService) {
         this.doctorsService = doctorsService;

@@ -17,10 +17,10 @@ import java.util.List;
 
 public class PrescriptionsForm extends Window implements View {
 
-    private Prescription prescription;
-    private PrescriptionsService prescriptionsService;
-    private List<Doctor> allDoctors;
-    private List<Patient> allPatients;
+    private final Prescription prescription;
+    private final PrescriptionsService prescriptionsService;
+    private final List<Doctor> allDoctors;
+    private final List<Patient> allPatients;
     private final TextArea description = new TextArea("Description");
     private NativeSelect<Doctor> doctor;
     private NativeSelect<Patient> patient;
@@ -29,9 +29,6 @@ public class PrescriptionsForm extends Window implements View {
     private NativeSelect<Integer> duration;
     private final Button save = new Button("Save", VaadinIcons.CHECK);
     private final Button cancel = new Button("Cancel");
-
-    public PrescriptionsForm() {
-    }
 
     public PrescriptionsForm(Prescription prescription, PrescriptionsService prescriptionsService) {
         this.prescriptionsService = prescriptionsService;
@@ -117,7 +114,7 @@ public class PrescriptionsForm extends Window implements View {
     }
 
     private void save() {
-        Notification notification = new Notification("All these fields are required", Notification.Type.ERROR_MESSAGE);
+        Notification notification = new Notification("Please fill all required fields", Notification.Type.ERROR_MESSAGE);
         notification.setPosition(Position.TOP_CENTER);
         notification.setDelayMsec(1500);
         if (description.getValue().trim().isEmpty()|| doctor.getValue() == null || patient.getValue() == null
