@@ -5,5 +5,5 @@ Main stack: Java, Spring boot, JPA. Minor stack: Vaadin, HSQLDB
 ## Running the application from the command line.
 To run from the command line, use `mvn spring-boot:run` and open http://localhost:8080 in your browser.
 ## Important! 
-To work correctly with the database file, you must specify the correct path to it in `application.property`.
-Set the value to property `spring.datasource.url` to where the project folder will be located
+The database file is placed in the project's classpath. To work correctly with this file, you must specify the correct path to it in `application.property`.
+Set the value to property `spring.datasource.url` to where the project folder will be located.
