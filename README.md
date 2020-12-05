@@ -1,5 +1,5 @@
 # SimpleClinicDemo
-This is an example project that can be used with Vaadin 8 application and Spring Boot.
+This is a test task that implements simple work of the clinic with doctors, patients and prescriptions.
 Main stack: Java, Spring boot, JPA. Minor stack: Vaadin, HSQLDB
 ![](src/main/resources/staticImages/presentation.png "Screenshots and information about")
 ## Running the application from the command line.
