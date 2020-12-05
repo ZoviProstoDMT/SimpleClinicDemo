@@ -2,7 +2,7 @@ package org.haulmont.simpleClinicDemo.backend.dao.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 @Entity
 @Table(name = "PRESCRIPTIONS")
@@ -20,13 +20,25 @@ public class Prescription extends AbstractEntity {
     private Patient patient;
 
     @NotNull
-    private LocalDateTime startDate;
+    private Date startDate;
 
     @NotNull
     private int duration;
 
     @NotNull
     private String priority;
+
+    public Prescription() {
+    }
+
+    public Prescription(String description, Doctor doctor, Patient patient, Date startDate, int duration, String priority) {
+        this.description = description;
+        this.doctor = doctor;
+        this.patient = patient;
+        this.startDate = startDate;
+        this.duration = duration;
+        this.priority = priority;
+    }
 
     public String getDescription() {
         return description;
@@ -52,11 +64,11 @@ public class Prescription extends AbstractEntity {
         this.patient = patient;
     }
 
-    public LocalDateTime getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 

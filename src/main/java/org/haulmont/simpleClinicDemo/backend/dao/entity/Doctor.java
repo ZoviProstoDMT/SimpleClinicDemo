@@ -24,6 +24,16 @@ public class Doctor extends AbstractEntity {
     @Column(name = "SPECIALIZATION")
     private String specialization;
 
+    public Doctor(String firstName, String lastName, String middleName, String specialization) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.specialization = specialization;
+    }
+
+    public Doctor() {
+    }
+
     public String getFirstName() {
         return firstName;
     }

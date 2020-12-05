@@ -23,6 +23,16 @@ public class Patient extends AbstractEntity {
     @Column(name = "PHONE")
     private String phone;
 
+    public Patient() {
+    }
+
+    public Patient(String firstName, String lastName, String middleName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.phone = phone;
+    }
+
     public String getFirstName() {
         return firstName;
     }

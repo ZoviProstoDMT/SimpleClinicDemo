@@ -12,6 +12,7 @@ import org.haulmont.simpleClinicDemo.backend.dao.entity.Patient;
 import org.haulmont.simpleClinicDemo.backend.dao.entity.Prescription;
 import org.haulmont.simpleClinicDemo.backend.service.PrescriptionsService;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class PrescriptionsForm extends Window implements View {
         if (prescription.getPriority() != null)
             priority.setSelectedItem(prescription.getPriority());
         if (prescription.getStartDate() != null)
-            startDate.setValue(prescription.getStartDate());
+            startDate.setValue(prescription.getStartDate().toLocalDate().atStartOfDay());
         if (prescription.getDuration() == 1 || prescription.getDuration() == 7 || prescription.getDuration() == 30)
             duration.setSelectedItem(prescription.getDuration());
     }
@@ -109,7 +110,7 @@ public class PrescriptionsForm extends Window implements View {
         prescription.setDoctor(doctor.getValue());
         prescription.setPatient(patient.getValue());
         prescription.setPriority(priority.getValue());
-        prescription.setStartDate(startDate.getValue());
+        prescription.setStartDate(Date.valueOf(startDate.getValue().toLocalDate()));
         prescription.setDuration(duration.getValue());
     }
 
